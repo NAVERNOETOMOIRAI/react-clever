@@ -1,0 +1,16 @@
+
+.layout{
+    display: flex;
+    min-width: 100vw;
+    min-height: 100vh;
+    &__sidebar{
+        min-width: 250px;
+        max-width: 250px;
+        background-color: var(--main-color);
+    }
+    &__wrapper{
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+}
