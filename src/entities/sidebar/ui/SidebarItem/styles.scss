@@ -8,12 +8,9 @@
     cursor: pointer;
     transition: all 0.3s ease;
     font-size: 0.95em;
-    
-    a {
-        color: var(--font-color);
-        text-decoration: none;  
-        font-weight: 500;
-    } 
+    color: var(--font-color);
+    text-decoration: none;  
+    font-weight: 500;
     span > svg {
         color: var(--font-color);
         width: 100%;
@@ -29,9 +26,7 @@
         li{
             padding-left: 1.1em;
         }
-        ul{
-            font-size: 0.9em;
-        }
+        
     }
     &__submenu{
         display: none;
@@ -40,6 +35,9 @@
         &-open{
             display: block;
         }
+    }
+    &.active{
+        background-color: var(--hover-background);
     }
     &:not(&__nesting):hover {
         background-color: var(--hover-background);

@@ -28,7 +28,19 @@ const createDevelopmentConfig = (): Configuration => {
       }),
       new ModuleFederationPlugin({
         name: 'aclever',
-        
+        filename: "remoteEntry.js",
+        exposes: {},
+        shared: {
+          ...deps,
+          react: {
+            singleton: true,
+            requiredVersion: deps.react,
+          },
+          "react-dom": {
+            singleton: true,
+            requiredVersion: deps["react-dom"],
+          },
+        },
       })
     ],
     optimization: {},

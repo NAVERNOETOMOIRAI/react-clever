@@ -1,33 +1,55 @@
-import { type ReactElement } from 'react'
-import { Navigate, createBrowserRouter } from 'react-router-dom'
+import {  createBrowserRouter } from 'react-router-dom'
 import { layoutWithSidebar } from './layouts/layoutWithSidebar'
 import { MainPage } from '@/pages/main'
-import { System } from '@/shared/ui'
+import { SidebarItem } from '@/entities/sidebar/model/types'
+import { ReactPage } from '@/pages/react'
+import { Iframe } from '@/pages/iframe'
 
-export const appRouter = () =>
-  createBrowserRouter([
+const getSibedarRouter = (sidebarItem: SidebarItem) => {
+  const {url, scope, module, path} = sidebarItem
+  if(sidebarItem.type === 'Iframe'){
+    return {
+        path,
+        element: <Iframe/>,
+        loader:   () => {
+          return {
+          url,
+        }
+      }
+    }
+  }
+  return  {
+    path,
+    element: <ReactPage/>,
+    errorElement: <div>error</div>,
+    loader:   () => {
+        return {
+        url,
+        scope,
+        module
+      }
+  }
+  }
+}
+const transformSidebarData = (data: SidebarItem):any => {
+  if(!data.items.length) return getSibedarRouter(data)
+  return data.items.map((item) => transformSidebarData(item))
+}
+export const appRouter = (props:SidebarItem[]) =>{
+  const transformData = props.map((item) => transformSidebarData(item)).flat(3);
+  return createBrowserRouter([
     {
       element: layoutWithSidebar,
       errorElement: <div>error</div>,
       loader:  () => {
-        return []
+        return props
       },
       children: [
         {
           path: '/',
             element: <MainPage/>,
         },
-        {
-            path: '/system/*',
-            element: <System />,
-            errorElement: <div>error</div>,
-            loader:   () => {
-                return {
-                url: 'http://localhost:3002',
-                scope: 'app2',
-                module: './Widget' }
-              },
-          },
+        ...transformData
       ],
     },
-  ])
+  ])}

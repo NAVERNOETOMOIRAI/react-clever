@@ -3,7 +3,6 @@ import { Sidebar } from '@/widgets/sidebar/ui'
 
 export const layoutWithSidebar = (
   <Layout
-   
-    SidebarSlot={Sidebar}
+    withSidebar
     />
 )

@@ -1,16 +1,16 @@
 import {SidebarItem as SidebarItemType} from '@/entities/sidebar/model/types'
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { ChevronDownCompactMIcon } from '@alfalab/icons-glyph/ChevronDownCompactMIcon';
-import './styles.scss';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import classNames from 'classnames';
+import './styles.scss';
 
 
-export const SidebarItem = (props: SidebarItemType) => {
-    const [isOpen, setIsOpen] = useState(false);
+export const SidebarItem = memo((props: SidebarItemType) => {
     const {items, title, path} = props;
+    const [isOpen, setIsOpen] = useState(() => window.location.pathname.includes(path));
     const renderItem = (path: string, title: string) => (
-        <li className='sidebar-item__wrapper'><div className='sidebar-item'><Link relative='route' to={path}>{title}</Link></div></li>
+        <li className='sidebar-item__wrapper'><NavLink className='sidebar-item' to={path}>{title}</NavLink></li>
     )
     if(!items.length){
         return renderItem(path, title)
@@ -31,4 +31,4 @@ export const SidebarItem = (props: SidebarItemType) => {
             </ul>
         </li>
     )
-}
+})
